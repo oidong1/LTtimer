@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%=title %>
+    </title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+var socket = io.connect('http://yoine.gehirn.ne.jp/');
+socket.on('connect', function(msg) {
+  console.log(msg);
+});
+
+socket.on('message', function(msg) {
+console.log(msg);
+  document.getElementById("count").innerHTML = msg.value;
+});
+
+function nyan(){
+    var html5_audio;
+    html5_audio = new Audio("/sounds/yoine"+Math.floor(Math.random()*3+1)+".wav");
+    html5_audio.play();
+    socket.emit('add');
+}
+</script>
+<body>
+    <div class="waku">
+        <img src="/images/button.png" onclick="nyan()">
+    </div>
+    <br>
+    現在、<span id="count">(nowloading...)</span>よいねなう。
+</body>
+</html>
